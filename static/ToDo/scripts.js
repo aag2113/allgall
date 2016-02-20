@@ -66,6 +66,7 @@ function addTaskList(){
 				});
 				$('.tasks').sortable(taskListSortableOpts).disableSelection();
 				$('.widget[data-tasklistid='+msg.tasklistid+'] .closeWidgetButton').click(closeWidget)
+				$('.widget[data-tasklistid='+msg.tasklistid+'] .toggleWidgetButton').click(toggleWidget)
 				$('.addTaskButton').click(addTask);
 			},
 			error: function(err){
@@ -155,6 +156,40 @@ function closeWidget(){
 	});
 }
 
+function toggleWidget(){
+	taskListID = this.dataset.tasklistid
+	jQuery.ajax({
+		type: "POST",
+		async: true,
+		url: "/ToDo/tasklist/"+taskListID+"/toggle/",
+		data: { 'csrfmiddlewaretoken': token, 'taskList': taskListID},
+
+		success: function(msg)
+		{
+			console.log(msg)
+			$('.widgetContainer[data-tasklistid="'+taskListID+'"]').replaceWith(msg.msg)
+			$('.widgetContainer[data-tasklistid='+msg.tasklistid+']').draggable({
+				containment : "#mainBodyContainer",
+	            handle: "h3",
+	            stop: function( event, ui ) {saveWidgetPosition(this.title, ui.position.top, ui.position.left ); }
+			});
+			$('.widget[data-tasklistid='+msg.tasklistid+']').resizable({
+			    minHeight: 150,
+			    minWidth: 200,
+			    stop: function( event, ui ) {saveWidgetSize(this.title, ui.size.width, ui.size.height); }
+			});
+			$('.tasks').sortable(taskListSortableOpts).disableSelection();
+			$('.widgetContainer[data-tasklistid='+msg.tasklistid+'] .closeWidgetButton').click(closeWidget)
+			$('.widgetContainer[data-tasklistid='+msg.tasklistid+'] .toggleWidgetButton').click(toggleWidget)
+			$('.addTaskButton').click(addTask);
+		},
+		error: function(err)
+		{
+			alert(err.responseText)
+		}
+	});
+}
+
 function clearCompleted(){
 	taskListID = this.parentElement.dataset.tasklistid
 	jQuery.ajax({
@@ -198,6 +233,8 @@ $(document).ready(function(){
 	$('.addTaskButton').click(addTask);
 
 	$('.closeWidgetButton').click(closeWidget);
+
+	$('.toggleWidgetButton').click(toggleWidget);
 
 	$('.trashButton').click(clearCompleted);
 

@@ -27,6 +27,9 @@ urlpatterns = patterns('',
                     # /ToDo/tasklist/create/
                     url(r'^tasklist/create/$', views.createTaskList, name='createTaskList'),
 
+                    # /ToDo/tasklist/1/toggle/
+                    url(r'^tasklist/(?P<tasklist_id>\d+)/toggle/$', views.toggleTaskList, name='toggleTaskList'),
+
                     # /ToDo/tasklist/5/remove/
                     url(r'^tasklist/(?P<tasklist_id>\d+)/remove/$', views.removeTaskList, name='removeTaskList'),
 

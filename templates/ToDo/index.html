@@ -19,6 +19,7 @@
         <div class="widget" title="{{ tasklist.id }}" data-tasklistid="{{tasklist.id}}" style="width:{{tasklist.width}};height:{{tasklist.height}}">
             <div class="TaskList" id="{{tasklist.id}}">
                 <h3>
+                    <div class="toggleWidgetButton" data-tasklistid="{{tasklist.id}}"><img src="/static/ToDo/down-arrow.svg" width="7px" height="7px" /></div>
                     <a href="tasklist/{{tasklist.id}}/">{{ tasklist.title }}</a>
                     <div class="closeWidgetButton" data-tasklistid="{{tasklist.id}}"><img src="/static/ToDo/x.svg" width="7px" height="7px" /></div>
                 </h3>
@@ -46,6 +47,18 @@
                 <div class="trashButton">
                     <img src="/static/ToDo/trash.svg" width="15px" height="15px" />
                 </div>
+            </div>
+        </div>
+    </div>
+    {% elif tasklist.status == 2 %}
+    <div class="widgetContainer" title="{{ tasklist.id }}" data-tasklistid="{{tasklist.id}}" style="top:{{tasklist.top}};left:{{tasklist.left}}">
+        <div class="widgetMin" title="{{ tasklist.id }}" data-tasklistid="{{tasklist.id}}" style="width:{{tasklist.width}};height:20px">
+            <div class="TaskList" id="{{tasklist.id}}">
+                <h3>
+                    <div class="toggleWidgetButton" data-tasklistid="{{tasklist.id}}"><img src="/static/ToDo/right-arrow.svg" width="7px" height="7px" /></div>
+                    <a href="tasklist/{{tasklist.id}}/">{{ tasklist.title }}</a>
+                    <div class="closeWidgetButton" data-tasklistid="{{tasklist.id}}"><img src="/static/ToDo/x.svg" width="7px" height="7px" /></div>
+                </h3>
             </div>
         </div>
     </div>

@@ -68,6 +68,17 @@ def createTaskList(request):
 	response = JsonResponse({'tasklistid':taskList.id,'msg':renderTaskList(taskList.id)})
 	return response
 
+def toggleTaskList(request, tasklist_id):
+	p = get_object_or_404(TaskList, pk=tasklist_id)
+	qd = request.POST
+	if p.status == 1:
+		p.status = 2
+	elif p.status == 2:
+		p.status = 1
+	p.save()
+	response = JsonResponse({'tasklistid':tasklist_id,'msg':renderTaskList(tasklist_id)})
+	return response
+
 def saveWidgetSize(request, tasklist_id):
 	p = get_object_or_404(TaskList, pk=tasklist_id)
 	qd = request.POST
@@ -139,21 +150,35 @@ def renderTasks(tasklist_id):
 
 def renderTaskList(tasklist_id):
 	taskList = TaskList.objects.get(pk=tasklist_id)
-	HTML = '<div class="widgetContainer" title="'+repr(taskList.id)+'" data-tasklistid="'+repr(taskList.id)+'" style="top:'+repr(taskList.top)+';left:'+repr(taskList.left)+'">'
-	HTML += '<div class="widget" title="'+repr(taskList.id)+'" data-tasklistid="'+repr(taskList.id)+'" style="width:'+repr(taskList.width)+';height:'+repr(taskList.height)+'">'
-	HTML += '<div class="TaskList" id="'+repr(taskList.id)+'">'
-	HTML += '<h3><a href="tasklist/'+repr(taskList.id)+'/">'+taskList.title+'</a>'
-	HTML += '<div class="closeWidgetButton" data-tasklistid="'+repr(taskList.id)+'"><img src="/static/ToDo/x.svg" width="7px" height="7px" /></div></h3>'
-	HTML += renderTasks(taskList.id)
-	HTML += '</div>'
-	HTML += '<div class="buttons" data-tasklistid="'+repr(taskList.id)+'">'
-	HTML += '<div class="addTaskButton">'
-	HTML += '<img src="/static/ToDo/plus.svg" width="15px" height="15px" />'
-	HTML += '</div>'
-	HTML += '<div class="trashButton">'
-	HTML += '<img src="/static/ToDo/trash.svg" width="15px" height="15px" />'
-	HTML += '</div>'
-	HTML += '</div>'
-	HTML += '</div>'
-	HTML += '</div>'
+	if taskList.status == 2:
+		HTML = '<div class="widgetContainer" title="'+repr(taskList.id)+'" data-tasklistid="'+repr(taskList.id)+'" style="top:'+repr(taskList.top)+';left:'+repr(taskList.left)+'">'
+		HTML += '<div class="widgetMin" title="'+repr(taskList.id)+'" data-tasklistid="'+repr(taskList.id)+'" style="width:'+repr(taskList.width)+';height:20px">'
+		HTML += '<div class="TaskList" id="'+repr(taskList.id)+'">'
+		HTML += '<h3>'
+		HTML += '<div class="toggleWidgetButton" data-tasklistid="'+repr(taskList.id)+'"><img src="/static/ToDo/right-arrow.svg" width="7px" height="7px" /></div>'
+		HTML += '<a href="tasklist/'+repr(taskList.id)+'/">'+taskList.title+'</a>'
+		HTML += '<div class="closeWidgetButton" data-tasklistid="'+repr(taskList.id)+'"><img src="/static/ToDo/x.svg" width="7px" height="7px" /></div></h3>'
+		HTML += '</div>'
+		HTML += '</div>'
+		HTML += '</div>'
+	else:
+		HTML = '<div class="widgetContainer" title="'+repr(taskList.id)+'" data-tasklistid="'+repr(taskList.id)+'" style="top:'+repr(taskList.top)+';left:'+repr(taskList.left)+'">'
+		HTML += '<div class="widget" title="'+repr(taskList.id)+'" data-tasklistid="'+repr(taskList.id)+'" style="width:'+repr(taskList.width)+';height:'+repr(taskList.height)+'">'
+		HTML += '<div class="TaskList" id="'+repr(taskList.id)+'">'
+		HTML += '<h3>'
+		HTML += '<div class="toggleWidgetButton" data-tasklistid="'+repr(taskList.id)+'"><img src="/static/ToDo/down-arrow.svg" width="7px" height="7px" /></div>'
+		HTML += '<a href="tasklist/'+repr(taskList.id)+'/">'+taskList.title+'</a>'
+		HTML += '<div class="closeWidgetButton" data-tasklistid="'+repr(taskList.id)+'"><img src="/static/ToDo/x.svg" width="7px" height="7px" /></div></h3>'
+		HTML += renderTasks(taskList.id)
+		HTML += '</div>'
+		HTML += '<div class="buttons" data-tasklistid="'+repr(taskList.id)+'">'
+		HTML += '<div class="addTaskButton">'
+		HTML += '<img src="/static/ToDo/plus.svg" width="15px" height="15px" />'
+		HTML += '</div>'
+		HTML += '<div class="trashButton">'
+		HTML += '<img src="/static/ToDo/trash.svg" width="15px" height="15px" />'
+		HTML += '</div>'
+		HTML += '</div>'
+		HTML += '</div>'
+		HTML += '</div>'
 	return HTML
