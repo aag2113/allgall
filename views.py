@@ -74,8 +74,7 @@ def createTaskList(request):
 	qd = request.POST
 	u = request.user
 	taskList = TaskList.objects.create(owner=u, title=qd.get('title'))
-	print taskList
-	print taskList.id
+	Task.objects.create(taskList = taskList, title='Get it!')
 	response = JsonResponse({'tasklistid':taskList.id,'msg':renderTaskList(taskList.id)})
 	return response
 
