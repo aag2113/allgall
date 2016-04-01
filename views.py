@@ -4,17 +4,20 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.decorators import login_required
 import json
 import datetime
 
 from ToDo.models import TaskList, Task
 
+'''
 class IndexView(generic.ListView):
     template_name = 'ToDo/index.html'
     context_object_name = 'tasklists'
 
     def get_queryset(self):
         return TaskList.objects.all()
+'''
 
 class taskView(generic.DetailView):
 	model = Task
@@ -24,6 +27,7 @@ class taskListView(generic.DetailView):
 	model = TaskList
 	template_name = 'ToDo/tasklist.html'
 
+@login_required
 def check(request, task_id):
 	p = get_object_or_404(Task, pk=task_id)
 	print p.title
@@ -43,18 +47,21 @@ def check(request, task_id):
 	except (KeyError, Task.DoesNotExist):
 		return render(request, 'ToDo/task.html', {'task': p, 'error_message': "No Such task"})
 
+@login_required
 def updateTitle(request, task_id):
 	p = get_object_or_404(Task, pk=task_id)
 	p.title = request.POST.get('title')
 	p.save()
 	return HttpResponseRedirect(reverse('ToDo:index'))
 
+@login_required
 def TLupdateTitle(request, tasklist_id):
 	p = get_object_or_404(TaskList, pk=tasklist_id)
 	p.title = request.POST.get('title')
 	p.save()
 	return HttpResponseRedirect(reverse('ToDo:index'))
 
+@login_required
 def createTask(request):
 	qd = request.POST
 	p = TaskList.objects.get(pk=qd.get('taskList'))
@@ -62,12 +69,26 @@ def createTask(request):
 	response = JsonResponse({'taskid':task.id,'msg':renderTask(task)})
 	return response
 
+@login_required
 def createTaskList(request):
 	qd = request.POST
-	taskList = TaskList.objects.create(title=qd.get('title'))
+	u = request.user
+	taskList = TaskList.objects.create(owner=u, title=qd.get('title'))
+	print taskList
+	print taskList.id
 	response = JsonResponse({'tasklistid':taskList.id,'msg':renderTaskList(taskList.id)})
 	return response
 
+# TODO: Add User Awareness, only owner should have this ability
+@login_required
+def removeTaskList(request, tasklist_id):
+	p = get_object_or_404(TaskList, pk=tasklist_id)
+	p.status = -p.status
+	p.save()
+	return HttpResponseRedirect(reverse('ToDo:index'))
+
+# TODO: Add User Awareness, only owner should have this ability
+@login_required
 def toggleTaskList(request, tasklist_id):
 	p = get_object_or_404(TaskList, pk=tasklist_id)
 	qd = request.POST
@@ -79,6 +100,8 @@ def toggleTaskList(request, tasklist_id):
 	response = JsonResponse({'tasklistid':tasklist_id,'msg':renderTaskList(tasklist_id)})
 	return response
 
+# TODO: Add User Awareness, only owner should have this ability
+@login_required
 def saveWidgetSize(request, tasklist_id):
 	p = get_object_or_404(TaskList, pk=tasklist_id)
 	qd = request.POST
@@ -87,12 +110,8 @@ def saveWidgetSize(request, tasklist_id):
 	p.save()
 	return HttpResponseRedirect(reverse('ToDo:index'))
 
-def removeTaskList(request, tasklist_id):
-	p = get_object_or_404(TaskList, pk=tasklist_id)
-	p.status = -p.status
-	p.save()
-	return HttpResponseRedirect(reverse('ToDo:index'))
-
+# TODO: Add User Awareness, only owner should have this ability
+@login_required
 def saveWidgetPos(request, tasklist_id):
 	p = get_object_or_404(TaskList, pk=tasklist_id)
 	qd = request.POST
@@ -108,6 +127,8 @@ def saveWidgetPos(request, tasklist_id):
 	p.save()
 	return HttpResponseRedirect(reverse('ToDo:index'))
 
+# TODO: Add User Awareness, only owner should have this ability
+@login_required
 def clearCompleted(request, tasklist_id):
 	tl = TaskList.objects.get(pk=tasklist_id)
 	for t in tl.task_set.all():
@@ -116,6 +137,8 @@ def clearCompleted(request, tasklist_id):
 			t.save()
 	return HttpResponse(renderTasks(tasklist_id))
 
+# TODO: Add User Awareness, only owner should have this ability
+@login_required
 def updateOrder(request, tasklist_id):
 	print 'tasklistid: %s' % tasklist_id
 	print 'request: %s' % request.POST
@@ -129,6 +152,7 @@ def updateOrder(request, tasklist_id):
 		task.save()
 	return HttpResponseRedirect(reverse('ToDo:index'))
 
+
 def renderTask(task):
 	result = '<li class="task" data-taskid="'+repr(task.id)+'">'
 	result += '<img class="dragHandle" src="/static/ToDo/dragHandle.svg" width="10px" height="13px" />'
@@ -139,6 +163,7 @@ def renderTask(task):
 	result += '<div class="taskTitle">'+task.title+'</div><br /></li>'
 	return result
 
+
 def renderTasks(tasklist_id):
 	tl = TaskList.objects.get(pk=tasklist_id)
 	tlHTML = '<ul class="tasks" data-tasklistid="'+repr(int(tasklist_id))+'">'
@@ -147,6 +172,7 @@ def renderTasks(tasklist_id):
 			tlHTML += renderTask(t)
 	tlHTML += '</ul>'
 	return tlHTML
+
 
 def renderTaskList(tasklist_id):
 	taskList = TaskList.objects.get(pk=tasklist_id)

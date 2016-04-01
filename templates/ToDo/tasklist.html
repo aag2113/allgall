@@ -7,7 +7,8 @@
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
 
 <h1><div class="taskListTitle" data-tasklistid="{{tasklist.id}}">{{ tasklist.title }}</div></h1>
-TaskList Status: {{ tasklist.status }}
+<p>TaskList Owner: {{ tasklist.owner }}</p>
+<p>TaskList Status: {{ tasklist.status }}</p>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 

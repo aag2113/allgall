@@ -1,13 +1,15 @@
 from django.conf.urls import patterns, url
+from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
 from ToDo import views
 
 
 urlpatterns = patterns('', 
                     # /ToDo/
-                    url(r'^$', views.IndexView.as_view(), name='index'),
+                    url(r'^$', login_required(TemplateView.as_view(template_name='ToDo/index.html')), name='index'),
 
                     # /ToDo/task/5/
-                    url(r'^task/(?P<pk>\d+)/$', views.taskView.as_view(), name='task'),
+                    url(r'^task/(?P<pk>\d+)/$', login_required(views.taskView.as_view()), name='task'),
 
                     # /ToDo/task/create/
                     url(r'^task/create/$', views.createTask, name='createTask'),
@@ -22,7 +24,7 @@ urlpatterns = patterns('',
                     url(r'^taskList/(?P<tasklist_id>\d+)/updateTitle/$', views.TLupdateTitle, name='TLupdateTitle'),
 
                     # /ToDo/tasklist/1/
-                    url(r'^tasklist/(?P<pk>\d+)/$', views.taskListView.as_view(), name='tasklist'),
+                    url(r'^tasklist/(?P<pk>\d+)/$', login_required(views.taskListView.as_view()), name='tasklist'),
 
                     # /ToDo/tasklist/create/
                     url(r'^tasklist/create/$', views.createTaskList, name='createTaskList'),

@@ -2,8 +2,10 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 class TaskList(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     left = models.IntegerField(default=0)
     top = models.IntegerField(default=0)
@@ -16,7 +18,7 @@ class TaskList(models.Model):
 
 
 class Task(models.Model):
-    taskList = models.ForeignKey(TaskList)
+    taskList = models.ForeignKey(TaskList, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     created_date = models.DateTimeField('Date Created', default=datetime.datetime.now)
     completed_date = models.DateTimeField('Date Completed', default=datetime.datetime.min)
