@@ -12,4 +12,7 @@ urlpatterns = patterns('',
     
     # Logout
     url(r'^logout/$','django.contrib.auth.views.logout', name='logout', kwargs={'next_page': '/accounts/login'}),
+
+    # Register
+    url(r'^register/$', views.register, name='register'),
 )
