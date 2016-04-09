@@ -103,12 +103,18 @@ a:active {
 .buttons{
 	position: absolute;
 	bottom: 0;
+	width: 100%;
 }
 .addTaskListButton{
 	height: 15px;
 	width: 15px;
 	margin: 5px;
 	display: inline;
+}
+#logoutLink{
+	display:inline-block;
+	float:right;
+	padding-right: 5px;
 }
 .dragHandle{
 	display: inline;
