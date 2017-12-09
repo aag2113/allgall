@@ -31,8 +31,6 @@ def register(request):
 			Task.objects.create(taskList = tl, title='Go get it!')
 			login(request, new_user)
 			return HttpResponseRedirect('/ToDo/')
-		else:
-			print form.errors
 	else:
 		form = UserForm()
 
