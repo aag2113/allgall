@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='task',
             name='taskList',
-            field=models.ForeignKey(to='ToDo.TaskList'),
+            field=models.ForeignKey(to='ToDo.TaskList', on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

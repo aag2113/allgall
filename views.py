@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect
@@ -30,18 +30,13 @@ class taskListView(generic.DetailView):
 @login_required
 def check(request, task_id):
 	p = get_object_or_404(Task, pk=task_id)
-	print p.title
-	print p.status == 0
-	print p.status == 1
 	try:
 		if p.status == 0:
 			p.status = 1
 			p.completed_date = datetime.datetime.now()
-			print p.completed_date
 		else:
 			p.status = 0
 			p.completed_date = datetime.datetime.min
-			print p.completed_date
 		p.save()
 		return HttpResponse("success")
 	except (KeyError, Task.DoesNotExist):
@@ -139,11 +134,8 @@ def clearCompleted(request, tasklist_id):
 # TODO: Add User Awareness, only owner should have this ability
 @login_required
 def updateOrder(request, tasklist_id):
-	print 'tasklistid: %s' % tasklist_id
-	print 'request: %s' % request.POST
 	data = request.POST.getlist('data[]')
 	for i, item in enumerate(data):
-		print repr(i) + " " + repr(item)
 		task = get_object_or_404(Task, pk = item)
 		taskList = TaskList.objects.get(pk=tasklist_id)
 		task.taskList = taskList
