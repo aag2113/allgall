@@ -1,0 +1,86 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="{% static 'adam/style.css' %}"/>
+		<title>ALLGALL</title>
+	</head>
+	<body>
+		<div id="header-container">
+			<div id="header">
+				<div id="name">
+					<h1><a href="/" id="name">AllGall</a></h1>
+				</div>		
+				<div id="header-nav">
+					<ul>
+						<li><a href="/ToDo/">TODO</a></li>
+						<li>
+							<a href="mailto:adam@allgall.net" target="_blank">CONTACT</a>
+						</li>
+						<li>
+							<a href="http://instagram.com/realadamgall" target="_blank">IG</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div id="main-container">
+			<div class="post">
+				<h1>Ex Machina</h1>
+				<p>2016.04.24</p>
+				<p>If you haven't seen "<a href="http://www.imdb.com/title/tt0470752/">Ex Machina</a>" yet then I highly suggest you give it a watch. The film is a sci-fi thriller that explores the potentially destructive consequences of artificial intelligence. Seriously, go watch it... specifically on DVD.</p>
+				<p>Why DVD? Well, the film itself is great, but if 90 minutes of entertainment is what you're after then all you are going to need is the DVD menu screen. A true achievement in the medium, the DVD menu screen features a serene animation of particles floating through space, periodically connecting to one another, like synapses in the aether. Hyperbole aside, I watched it for about 20 minutes.</p>
+				<p>In fact, I was so taken with the effect that I decided to try to recreate it in Python!</p>
+				<p><a href="https://www.dropbox.com/s/rynp552j8wpcfs4/exMachina.mp4?dl=0">Here</a> is the result, as well as the <a href="https://github.com/aag2113/exMachina/blob/master/exMachina.py">source</a>.</p>
+				<p>And just like that, my first screen-saver.</a>
+			</div>
+			<div class="post">
+				<h1>ToDo</h1>
+				<p>2016.04.09</p>
+				<p>Some of ya'll have been asking me for access to my little ToDo tool. Well, <a href="/ToDo/">here</a> it is!</p>
+				<p>This took a lot longer than I anticipated as implementing accounts and access and stuff in django was harder for me than I care to admit.</p>
+				<p>Anywho, check it out, it doesn't do much, but it is super lightweight and focused. There are still a couple of bugs that I have yet to iron out, but nothing a page refresh doesn't fix. Happy tasking!</p>
+			</div>
+			<div class="post">
+				<h1>New Year</h1>
+				<p>2016.01.01</p>
+				<p>
+				Happy New Year. Not drinking coffee is way easier than I thought! But why?
+				</p>
+			</div>
+<!--
+			<div class="post">
+				<h1>Getting Started</h1>
+				<p>2015.11.13</p>
+				<p>
+				I dread new releases these days. Things are getting worse. I'm not saying that we've reached "peak technology." Anyone who thinks that technology is done improving our lives is delusional. What I am saying is that many of the tools that I use (and used to love) are inferior versions of their former selves. 
+				</p>
+				<p>
+				I get it. To make more money you have to make more versions. So you make more versions. You add new features. Your product improves. Your user base grows. Your revenue grows. Then all of a sudden there is nothing to optimize. Nothing that honestly needs improving. 
+				</p>
+				<p>
+				Now what? You have to ship <i>something</i>. So you redesign the interface. You integrate. You ingeniously fold in teasers for new revenue streams. You keep at it. Keep shipping. You build iTunes 12. It still plays music, sure, but where it really shines is driving iCloud and Apple Music subscriptions. 
+				</p>
+				<p>
+				You take a product that was simple, functional and fantastic, a product that people genuinely loved, and you destroy it. You change its core functionality. You iterate it into something else entirely.
+				</p>
+				<p>
+				Certainly not everyone shares this opinion. There must be people who love iTunes in it's current incarnation. However, as a tool to browse and manage your personal music library, it is objectively worse than it was several versions ago.
+				</p>
+				<p>
+				iTunes isn't even the exception. Across the board the toolchest that we all rely on is iterating itself into an unusable mess. All because we cant step back and recognize that we nailed it three versions ago.
+				</p> 
+				<p>
+				Luckily it has never been easier to stop bitching and start doing. This is my attempt at doing. AllGall.net will be an outlet and a showcase for dead simple, functional tools. Screwdrivers, not Leathermans. 
+				</p>
+				<p>
+				The first project is ToDo. Check it out. It doesn't do much but I think it does it well. Fixes will focus on function not features. Once the bugs are gone development will stop. Lets see what happens.
+				</p>
+			</div>
+-->
+		</div>
+		<div id="footer">
+		</div>
+	</body>
+</html>

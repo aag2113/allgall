@@ -5,3 +5,5 @@ admin.py
 manage.py
 .idea/
 settings.py
+*.save
+*.conf
