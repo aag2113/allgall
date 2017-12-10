@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>AllGall</title>
+    </head>
+
+    <body>
+        <h1>Create Your Account</h1>
+
+        {% if registered %}
+        <strong>Thank you for registering!</strong>
+        <a href="/ToDo/">ToDo</a><br />
+        {% else %}
+        <br />
+
+        <form id="UserForm" method="post" action="/accounts/register/" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <input type="submit" name="submit" value="register" />
+        </form>
+        {% endif %}
+    </body>
+</html>
