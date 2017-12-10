@@ -1,0 +1,65 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'freepreview/style.css' %}" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
+<script type="text/javascript" src="{% static 'freepreview/jquery.editable.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+
+<h1><div class="taskListTitle" data-tasklistid="{{tasklist.id}}">{{ tasklist.title }}</div></h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% csrf_token %}
+<body>
+<div id="trialFormContainer">
+	<form id="trialForm" method="post" action="/freepreivew/submit/">
+	<ul class="trialFormFields">
+        <li>
+            <img id="masthead" src="http://www.factcite.com/media/factcitelogin.gif"/>
+        </li>
+		<li>
+            <label>Name</label>
+            <input type="text" name="name" id="name" class="inputField"></input>
+		</li>
+		<li>
+			<label>Position</label>
+			<input type="text" name="position" id="position" class="inputField"/>
+		</li>
+		<li>
+			<label>State</label>
+			<input type="text" name="state" id="state" class="inputField"/>
+		</li>
+		<li>
+			<label>Institution</label>
+			<input type="text" name="institution" id="institution" class="inputField" />
+		</li>
+		<li>
+			<label>Email</label>
+			<input type="text" name="email" id="email" class="inputField"/>
+		</li>
+		<li>
+            <label>Phone</label>
+			<input type="text" name="phone" id="phone" class="inputField"/>
+		</li>
+		<li>
+			<label>Username</label>
+            <input type="text" id="username" name="username" class="inputField"/>
+		</li>
+		<li>
+            <label>Password</label>
+            <input type="password" id="password"  name="password" class="inputField"/>
+        </li>
+		<li>
+			<input type="button" class="trialSubmit" value="Submit" onClick="sendcom()">
+		</li>
+	</ul>
+	
+	</form>
+</div>
+<div id="fade"></div>
+<div id="modal">
+    <image id="loader" src="{% static 'freepreview/loading.gif' %}" />
+</div>
+<script type="text/javascript" src="{% static 'freepreview/scripts.js' %}"></script>
+</body>
