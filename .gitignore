@@ -1,7 +1,7 @@
 *.pyc
 db.sqlite3
 
-__init__.py
 admin.py
 manage.py
 .idea/
+settings.py
