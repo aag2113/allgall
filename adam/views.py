@@ -1,12 +1,12 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from django.urls import reverse
+from django.shortcuts import render
 from django.views import generic
-from django.utils import timezone
-from django.views.decorators.csrf import csrf_protect
-import json
-import datetime
+
+from.models import BlogPost
+
 
 class HomePageView(generic.base.TemplateView):
-    template_name = 'adam/index.html'
+    template = 'adam/index.html'
 
+    def get(self, request):
+        posts = BlogPost.objects.filter(date_published__isnull=False).order_by('-date_published')
+        return render(request, self.template, {'blogposts': posts})
