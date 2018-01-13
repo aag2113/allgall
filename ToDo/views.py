@@ -107,8 +107,8 @@ def toggleTaskList(request, tasklist_id):
 def saveWidgetSize(request, tasklist_id):
     p = get_object_or_404(TaskList, pk=tasklist_id)
     qd = request.POST
-    p.width = qd.get('w')
-    p.height = qd.get('h')
+    p.width = int(qd.get('w'))
+    p.height = int(qd.get('h'))
     p.save()
     return HttpResponseRedirect(reverse('ToDo:index'))
 
@@ -118,13 +118,13 @@ def saveWidgetSize(request, tasklist_id):
 def saveWidgetPos(request, tasklist_id):
     p = get_object_or_404(TaskList, pk=tasklist_id)
     qd = request.POST
-    if qd.get('t') > 0:
-        p.top = qd.get('t')
+    if int(qd.get('t')) > 0:
+        p.top = int(qd.get('t'))
     else:
         p.top = 0
 
-    if qd.get('l') > 0:
-        p.left = qd.get('l')
+    if int(qd.get('l')) > 0:
+        p.left = int(qd.get('l'))
     else:
         p.left = 0
     p.save()
