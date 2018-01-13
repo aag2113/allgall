@@ -4,6 +4,8 @@ import spotipy.util as sputil
 from django.core.management.base import BaseCommand
 from django.conf import settings
 
+from AllGall.utilities import send_mail
+
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -22,7 +24,11 @@ class Command(BaseCommand):
             redirect_uri=redirect_uri
         )
 
-        sp = spotipy.Spotify(auth=token)
+        try:
+            sp = spotipy.Spotify(auth=token)
+        except:
+            send_mail("Spotify Error", "Authentication Failure", "gall.adam@gmail.com")
+            return
 
         tracks_1 = sp.current_user_saved_tracks(limit=50)
         tracks_2 = sp.current_user_saved_tracks(limit=50, offset=50)
