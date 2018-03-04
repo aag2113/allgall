@@ -4,6 +4,7 @@ from django.contrib import admin
 from accounts import urls as accounts_urls
 from freepreview import urls as freepreview_urls
 from ToDo import urls as todo_urls
+from fc_stats import urls as fc_stats_urls
 
 from adam.views import HomePageView
 
@@ -14,4 +15,5 @@ urlpatterns = [
     url(r'^ToDo/', include(todo_urls, namespace='ToDo')),
     url(r'^freepreview/', include(freepreview_urls, namespace='freepreview')),
     url(r'^accounts/', include(accounts_urls, namespace='accounts')),
+    url(r'^fc-stats/', include(fc_stats_urls, namespace="fc_stats"))
 ]
