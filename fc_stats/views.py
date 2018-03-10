@@ -135,8 +135,6 @@ class UsageVisualizerView(generic.base.TemplateView):
             hit["product"] = a.product
             top_hits.append(hit)
 
-        print(top_hits)
-
         ctx = {
             'total': total,
             'form': form,
