@@ -6,9 +6,12 @@ from .models import FcUser, Product
 
 
 class UsageStatsForm(forms.Form):
+    is_known_product = forms.BooleanField(required=False, initial=True)
+    is_known_article = forms.BooleanField(required=False, initial=True)
     user = forms.ModelChoiceField(
         queryset=FcUser.objects.all().order_by('username'),
         widget=autocomplete.ModelSelect2(),
+        required=False,
     )
     product = forms.ModelChoiceField(
         label='product',

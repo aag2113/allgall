@@ -22,7 +22,7 @@
 					<canvas id="pie-chart-1" height="200"></canvas>
 				</div>
 				<div class="col-4" id="form">
-					<form action="/" method="get">
+					<form action="" method="get">
 						{{ form.as_p }}
 						{% buttons %}
 							<input type="submit" value="Submit" />
@@ -38,7 +38,27 @@
 				<div class="col" id="list_2"></div>
 			</div>
 		</div>
-		<div class="col-md-4" id="filters">
+		<div id="articles" class="col-md-6">
+			<table class="table">
+			  <thead>
+				<tr>
+				  <th scope="col">#</th>
+				  <th scope="col">Product</th>
+				  <th scope="col">Article</th>
+				</tr>
+			  </thead>
+			  <tbody>
+			  {% for hit in hits %}
+				<tr>
+				  <th scope="row">{{ hit.doc_count }}</th>
+				  <td>{{ hit.product }}</td>
+				  <td>{{ hit.title }}</td>
+				</tr>
+			  {% endfor %}
+			  </tbody>
+			</table>
+		</div>
+		<div class="col-md-4" id="filters" style="visibility: hidden;">
 			{% for facet in facets %}
 				<div class="panel panel-default facet-{{ facet.name }}">
 				  <div class="panel-heading">{{ facet.name }}</div>
@@ -58,7 +78,7 @@
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
-	<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+	<script type="text/javascript" src="{% static 'fc_stats/admin/js/vendor/jquery/jquery.js' %}"></script>
 	<script
 	  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
 	  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="

@@ -73,25 +73,35 @@ class UsageVisualizerView(generic.base.TemplateView):
             yyyy, mm = map(int, value.split('-'))
             return datetime.datetime(yyyy, mm, 1, 0, 0, 0)
         elif facet_name in boolean_facets:
-            return int(value) == 1
+            return value
         elif facet_name in numerical_facets:
             return int(value)
 
         return value
 
     def get(self, request, **kwargs):
-        form = UsageStatsForm()
+        if request.GET:
+            form = UsageStatsForm(request.GET)
+        else:
+            form = UsageStatsForm(initial={"is_known_article": True, "is_known_product": True})
 
         whitelisted_facet_args = {}
+        if not request.GET:
+            whitelisted_facet_args['is_known_article'] = True
+            whitelisted_facet_args['is_known_product'] = True
         for key, value in request.GET.items():
-            if key in PageHitSearch.facets:
+            if key in PageHitSearch.facets and value:
+                if key in ['is_known_article', 'is_known_product']:
+                    if not value:
+                        value = True
+                    else:
+                        value = value == 'on'
                 whitelisted_facet_args[key] = self.facet_to_filter(key, value)
 
         query = None
 
         s = PageHitSearch(query=query, filters=whitelisted_facet_args)
         response = s.execute()
-
         facets = response.facets
         facets = [(k, v) for k, v in facets._d_.items()]
         facet_dicts = []
@@ -118,10 +128,20 @@ class UsageVisualizerView(generic.base.TemplateView):
 
         total = response.hits.total
 
+        top_hits = []
+        for hit in response.to_dict().get('aggregations').get('top_articles').get('buckets'):
+            a = Article.objects.get(id=hit.get('key'))
+            hit["title"] = a.title
+            hit["product"] = a.product
+            top_hits.append(hit)
+
+        print(top_hits)
+
         ctx = {
             'total': total,
             'form': form,
             'facets': facet_dicts,
             'docs': list(response),
+            'hits': top_hits,
         }
         return render(request, 'usage/base.html', context=ctx)

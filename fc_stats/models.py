@@ -29,6 +29,10 @@ class Article(models.Model):
         else:
             return self.uri
 
+    @property
+    def product(self):
+        return self.products.all()[0].product_key
+
 
 class FcUser(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)

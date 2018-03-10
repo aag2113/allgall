@@ -62,7 +62,10 @@ class Command(BaseCommand):
 
         page_num = None
         if doc_id and len(uri) > 1:
-            page_num = int(uri[-1])
+            try:
+                page_num = int(uri[-1])
+            except:
+                return None
 
         if doc_id:
             article, created = Article.objects.get_or_create(docid=doc_id)

@@ -23,6 +23,7 @@ class PageHitSearch(FacetedSearch):
 
     def search(self):
         s = super().search()
+        s.aggs.bucket("top_articles", "terms", field="doc_id", size=100)
         return s
 
     def filter(self, search):

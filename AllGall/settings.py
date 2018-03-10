@@ -24,7 +24,7 @@ EMAIL_USER = get_secret("EMAIL_USER")
 EMAIL_PASSWORD = get_secret("EMAIL_PASSWORD")
 SPOTIFY = get_secret("SPOTIFY")
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -112,4 +112,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 STATIC_ROOT = '/home/adam/djenv/static/'
