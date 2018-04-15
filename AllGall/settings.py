@@ -24,7 +24,7 @@ EMAIL_USER = get_secret("EMAIL_USER")
 EMAIL_PASSWORD = get_secret("EMAIL_PASSWORD")
 SPOTIFY = get_secret("SPOTIFY")
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
