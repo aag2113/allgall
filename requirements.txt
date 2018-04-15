@@ -12,6 +12,7 @@ elasticsearch==6.1.1
 elasticsearch-dsl==6.1.0
 idna==2.6
 ipaddress==1.0.19
+mistune==0.8.3
 python-dateutil==2.6.1
 pytz==2017.3
 requests==2.18.4

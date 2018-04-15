@@ -1,37 +1,39 @@
 {% load staticfiles %}
+{% load markdownify %}
 <!DOCTYPE html>
 <html>
 	<head>
 		<link type="text/css" rel="stylesheet" href="{% static 'adam/style.css' %}"/>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<title>ALLGALL</title>
 	</head>
 	<body>
-		<div id="header-container">
-			<div id="header">
-				<div id="name">
+		<div id="header-container" class="container-fluid">
+			<div id="header" class="row align-items-center">
+				<div class="col">
 					<h1><a href="/" id="name">AllGall</a></h1>
 				</div>
-				<div id="header-nav">
-					<ul>
-						<li><a href="/ToDo/">TODO</a></li>
-						<li>
-							<a href="mailto:adam@allgall.net" target="_blank">CONTACT</a>
-						</li>
-						<li>
-							<a href="http://instagram.com/realadamgall" target="_blank">IG</a>
-						</li>
-					</ul>
+				<div class="col-auto">
+					<a href="/ToDo/">TODO</a>
+				</div>
+				<div class="col-auto">
+					<a href="mailto:adam@allgall.net" target="_blank">CONTACT</a>
 				</div>
 			</div>
 		</div>
 
-		<div id="main-container">
+		<div id="main-container" class="container-fluid">
 			{% for blogpost in blogposts %}
 				<div class="post">
-					<h1>{{ blogpost.title }}</h1>
+					<h3>{{ blogpost.title }}</h3>
 					<p>{{ blogpost.date_published|date:"Y.m.d" }}</p>
-					{{ blogpost.body|safe }}
+					<div class="post-body">
+						{{ blogpost.body | markdown | safe }}
+					</div>
 				</div>
+			{% if not forloop.last %}
+			<hr/>
+			{% endif %}
 			{% endfor %}
 		</div>
 
