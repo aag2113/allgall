@@ -15,6 +15,9 @@ class Command(BaseCommand):
         client_secret = settings.SPOTIFY.get('client_secret')
         redirect_uri = settings.SPOTIFY.get('redirect_uri')
         playlist_id = settings.SPOTIFY.get('playlist_id')
+        focus_playlist_id = settings.SPOTIFY.get('focus_playlist_id')
+        fresh_focus_playlist_id = settings.SPOTIFY.get('fresh_focus_playlist_id')
+        ultimate_focus_playlist_id = settings.SPOTIFY.get('ultimate_focus_playlist_id')
 
         token = sputil.prompt_for_user_token(
             user,
@@ -36,3 +39,21 @@ class Command(BaseCommand):
         track_ids = [track.get('track').get('id') for track in tracks_1.get('items')]
         track_ids.extend([track.get('track').get('id') for track in tracks_2.get('items')])
         sp.user_playlist_replace_tracks(user, playlist_id, track_ids)
+
+        focus_playlist = sp.user_playlist(user, focus_playlist_id, fields="tracks,next")
+        tracks = focus_playlist.get('tracks')
+
+        mytracks = []
+        [mytracks.append(track.get('track').get('id')) for track in tracks.get('items')]
+        while tracks['next']:
+            tracks = sp.next(tracks)
+            if tracks:
+                [mytracks.append(track.get('track').get('id')) for track in tracks.get('items')]
+
+        mytracks = mytracks[-50:]
+
+        ultimate_focus_playlist = sp.user_playlist(user, ultimate_focus_playlist_id, fields="tracks,next")
+        tracks = ultimate_focus_playlist.get('tracks')
+        [mytracks.append(track.get('track').get('id')) for track in tracks.get('items')]
+
+        sp.user_playlist_replace_tracks(user, fresh_focus_playlist_id, mytracks)
